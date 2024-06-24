@@ -3,18 +3,21 @@ import { CompositeScreenProps } from "@react-navigation/native"
 import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { Icon } from "../components"
-import { translate } from "../i18n"
-import { DemoCommunityScreen, DemoShowroomScreen, DemoDebugScreen } from "../screens"
-import { DemoPodcastListScreen } from "../screens/DemoPodcastListScreen"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
+import { HomeScreen } from "app/screens/HomeScreen"
+import { StatisticalScreen } from "app/screens/StatisticalScreen"
+import { ProfileScreen } from "app/screens/ProfileScreen"
+import { AntDesign } from "@expo/vector-icons"
 
 export type DemoTabParamList = {
   DemoCommunity: undefined
   DemoShowroom: { queryIndex?: string; itemIndex?: string }
   DemoDebug: undefined
   DemoPodcastList: undefined
+  Home: undefined
+  Statistical: undefined
+  Profile: undefined
 }
 
 /**
@@ -51,7 +54,7 @@ export function DemoNavigator() {
         tabBarItemStyle: $tabBarItem,
       }}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="DemoShowroom"
         component={DemoShowroomScreen}
         options={{
@@ -60,38 +63,35 @@ export function DemoNavigator() {
             <Icon icon="components" color={focused ? colors.tint : undefined} size={30} />
           ),
         }}
-      />
+      /> */}
 
       <Tab.Screen
-        name="DemoCommunity"
-        component={DemoCommunityScreen}
+        name="Home"
+        component={HomeScreen}
         options={{
-          tabBarLabel: translate("demoNavigator.communityTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="community" color={focused ? colors.tint : undefined} size={30} />
+            <AntDesign name="home" color={focused ? colors.tint : undefined} size={30} />
+            // <Icon icon="podcast" color={focused ? colors.tint : undefined} size={30} />
           ),
         }}
       />
 
       <Tab.Screen
-        name="DemoPodcastList"
-        component={DemoPodcastListScreen}
+        name="Statistical"
+        component={StatisticalScreen}
         options={{
-          tabBarAccessibilityLabel: translate("demoNavigator.podcastListTab"),
-          tabBarLabel: translate("demoNavigator.podcastListTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="podcast" color={focused ? colors.tint : undefined} size={30} />
+            <AntDesign name="barschart" color={focused ? colors.tint : undefined} size={30}  />
           ),
         }}
       />
-
+      
       <Tab.Screen
-        name="DemoDebug"
-        component={DemoDebugScreen}
+        name="Profile"
+        component={ProfileScreen}
         options={{
-          tabBarLabel: translate("demoNavigator.debugTab"),
           tabBarIcon: ({ focused }) => (
-            <Icon icon="debug" color={focused ? colors.tint : undefined} size={30} />
+            <AntDesign name="user" color={focused ? colors.tint : undefined} size={30} />
           ),
         }}
       />

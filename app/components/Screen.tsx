@@ -2,6 +2,7 @@ import { useScrollToTop } from "@react-navigation/native"
 import { StatusBar, StatusBarProps } from "expo-status-bar"
 import React, { useRef, useState } from "react"
 import {
+  ImageBackground,
   KeyboardAvoidingView,
   KeyboardAvoidingViewProps,
   LayoutChangeEvent,
@@ -9,11 +10,13 @@ import {
   ScrollView,
   ScrollViewProps,
   StyleProp,
+  StyleSheet,
   View,
   ViewStyle,
 } from "react-native"
 import { colors } from "../theme"
 import { ExtendedEdge, useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
+import { GradientBackground } from "./ImageResource"
 
 interface BaseScreenProps {
   /**
@@ -35,6 +38,8 @@ interface BaseScreenProps {
   /**
    * Background color
    */
+  gradientBackground?: boolean
+
   backgroundColor?: string
   /**
    * Status bar setting. Defaults to dark.
@@ -227,18 +232,23 @@ function ScreenWithScrolling(props: ScreenProps) {
  */
 export function Screen(props: ScreenProps) {
   const {
+    gradientBackground = true,
     backgroundColor = colors.background,
     KeyboardAvoidingViewProps,
     keyboardOffset = 0,
     safeAreaEdges,
     StatusBarProps,
-    statusBarStyle = "dark",
+    statusBarStyle = "light",
   } = props
 
   const $containerInsets = useSafeAreaInsetsStyle(safeAreaEdges)
 
   return (
     <View style={[$containerStyle, { backgroundColor }, $containerInsets]}>
+      <ScreenBackground
+        imageSource={gradientBackground ? GradientBackground : undefined}
+        color={backgroundColor}
+      />
       <StatusBar style={statusBarStyle} {...StatusBarProps} />
 
       <KeyboardAvoidingView
@@ -256,6 +266,21 @@ export function Screen(props: ScreenProps) {
     </View>
   )
 }
+
+const ScreenBackground = (props: any) => {
+  const { imageSource, color } = props;
+  if (imageSource) {
+    return (
+      <ImageBackground source={imageSource} style={StyleSheet.absoluteFill} />
+    );
+  }
+  if (color) {
+    return (
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: color }]} />
+    );
+  }
+  return <View />;
+};
 
 const $containerStyle: ViewStyle = {
   flex: 1,
