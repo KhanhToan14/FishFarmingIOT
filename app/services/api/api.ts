@@ -48,10 +48,6 @@ export class Api {
     })
   }
 
-  // @demo remove-block-start
-  /**
-   * Gets a list of recent React Native Radio episodes.
-   */
   async getEpisodes(): Promise<{ kind: "ok"; episodes: EpisodeSnapshotIn[] } | GeneralApiProblem> {
     // make the api call
     const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
@@ -82,8 +78,256 @@ export class Api {
       return { kind: "bad-data" }
     }
   }
-  // @demo remove-block-end
+
+  async register(data: any): Promise<{kind: "ok"; result: any} | GeneralApiProblem> {    
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.post(
+      `iot/auth/register`,
+      data,
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      return { kind: "ok", result: "ok" }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  async logIn(data: any): Promise<{kind: "ok"; result: any} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.post(
+      `iot/auth/login`,
+      data,
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data;
+      return { kind: "ok", result: rawData }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getPool(params: any): Promise<{kind: "ok"; result: any} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
+      `iot/pool/getPoolByUsername`,
+      params,
+    )
+    
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data;
+      return { kind: "ok", result: rawData }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  async addNewPool(newPool: any): Promise<{kind: "ok"; result: any} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.post(
+      `iot/pool/addNewPool`,
+      newPool,
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data;
+      return { kind: "ok", result: rawData }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  async removePool(username: string, poolId: string): Promise<{kind: "ok"; result: any} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.delete(
+      `iot/pool/${username}/${poolId}`
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data;
+      return { kind: "ok", result: rawData }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  
+  async getAllDevice(): Promise<{kind: "ok"; result: any} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
+      `iot/device/getAllDevice`
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data;
+      return { kind: "ok", result: rawData }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  async sendCommand(deviceId: number, commandValue: any): Promise<{kind: "ok"; result: any} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.post(
+      `iot/device/sendCommand`, {}, {
+        params: {
+          deviceId,
+          command: commandValue,
+        }
+      }
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data;
+      return { kind: "ok", result: rawData }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  async addDevice(newDevice: any): Promise<{kind: "ok"; result: any} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.post(
+      `iot/device/addDevice`,
+      newDevice,
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data;
+      return { kind: "ok", result: rawData }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+  
+  async removeDevice(username: string, deviceId: string): Promise<{kind: "ok"; result: any} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.delete(
+      `iot/device/delete/${username}/${deviceId}`,
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data;
+      return { kind: "ok", result: rawData }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getListDeviceByPoolId(username: string, poolId: string): Promise<{kind: "ok"; result: any} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
+      `iot/device/getListDeviceByPoolId`,
+      {
+        username,
+        poolId,
+      }
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data;
+      return { kind: "ok", result: rawData }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getLogDevice(deviceId: string): Promise<{kind: "ok"; result: any} | GeneralApiProblem> {
+    const response: ApiResponse<ApiFeedResponse> = await this.apisauce.get(
+      `iot/log_device/getLogDevice`,
+      {
+        type: 2,
+        deviceId,
+      }
+    )
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    try {
+      const rawData = response.data;
+      return { kind: "ok", result: rawData }
+    } catch (e) {
+      if (__DEV__ && e instanceof Error) {
+        console.error(`Bad data: ${e.message}\n${response.data}`, e.stack)
+      }
+      return { kind: "bad-data" }
+    }
+  }
 }
 
-// Singleton instance of the API for convenience
 export const api = new Api()

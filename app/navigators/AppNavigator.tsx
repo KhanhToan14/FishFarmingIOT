@@ -20,6 +20,7 @@ import { useStores } from "../models" // @demo remove-current-line
 import { DemoNavigator, DemoTabParamList } from "./DemoNavigator" // @demo remove-current-line
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { colors } from "app/theme"
+import { CreateAccountNavigator } from "./CreateAccountNavigator"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -40,6 +41,12 @@ export type AppStackParamList = {
   Demo: NavigatorScreenParams<DemoTabParamList> // @demo remove-current-line
   // 🔥 Your screens go here
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+  CreateAccount: undefined
+  PoolDetail: {
+    id: string,
+    name: string,
+    description: string,
+  }
 }
 
 /**
@@ -66,19 +73,20 @@ const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
-      initialRouteName={isAuthenticated ? "Welcome" : "Login"} // @demo remove-current-line
     >
       {/* @demo remove-block-start */}
       {isAuthenticated ? (
         <>
-          {/* @demo remove-block-end */}
-          <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
-          {/* @demo remove-block-start */}
           <Stack.Screen name="Demo" component={DemoNavigator} />
+          <Stack.Screen
+            name="PoolDetail"
+            component={Screens.PoolDetailScreen}
+            options={{ headerShown: false}}
+          />
         </>
       ) : (
         <>
-          <Stack.Screen name="Login" component={Screens.LoginScreen} />
+          <Stack.Screen name="CreateAccount" component={CreateAccountNavigator} />
         </>
       )}
       {/* @demo remove-block-end */}

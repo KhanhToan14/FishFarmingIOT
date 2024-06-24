@@ -13,14 +13,14 @@ export interface AutoImageProps extends ImageProps {
 }
 
 /**
- * A hook that will return the scaled dimensions of an image based on the
+ * A hook that will return the scnot both). Secondly, the image will scale to fit
+ * the desired dimensions instead of just being contained within its image-container.
+ * @param {number} remoteUri - Thaled dimensions of an image based on the
  * provided dimensions' aspect ratio. If no desired dimensions are provided,
  * it will return the original dimensions of the remote image.
  *
  * How is this different from `resizeMode: 'contain'`? Firstly, you can
- * specify only one side's size (not both). Secondly, the image will scale to fit
- * the desired dimensions instead of just being contained within its image-container.
- * @param {number} remoteUri - The URI of the remote image.
+ * specify only one side's size (e URI of the remote image.
  * @param {number} dimensions - The desired dimensions of the image. If not provided, the original dimensions will be returned.
  * @returns {[number, number]} - The scaled dimensions of the image.
  */
