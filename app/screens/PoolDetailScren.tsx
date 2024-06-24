@@ -160,7 +160,7 @@ export const PoolDetailScreen: FC<AppStackScreenProps<"PoolDetail">> = observer(
                             {devices.map((item: any, index: number) => (
                                 <SensorCard device={item} key={index} modalRef={childModalizeRef} onSelectDevice={(device: any, infoState: any) => {
                                     setSelectedDevice(device)
-                                    setStateInfoOfDevice(infoState)
+                                    setStateInfoOfDevice(Math.round(infoState))
                                 }} />
                             ))}
                         </View>
@@ -218,9 +218,9 @@ export const PoolDetailScreen: FC<AppStackScreenProps<"PoolDetail">> = observer(
                             </View>
                             <Slider
                                 style={{width: "100%", height: 80, marginVertical: spacing.lg}}
-                                minimumValue={20}
+                                minimumValue={1}
                                 value={stateInfoOfDevice}
-                                maximumValue={40}
+                                maximumValue={100}
                                 onValueChange={value => {setStateInfoOfDevice(Math.round(value))}}
                                 minimumTrackTintColor="#FFFFFF"
                                 maximumTrackTintColor="#000000"
@@ -294,8 +294,10 @@ const SensorCard = (_props: { device: any, modalRef: any, onSelectDevice: any}) 
             const res = await api.getLogDevice(deviceId)
             
             if (res.kind === "ok") {             
-                const infoState = res.result[0]?.infor                
-                setStateInfo(20)
+                const infoState = res.result[0]?.infor
+                console.log(infoState);
+                             
+                setStateInfo(infoState ?? 20)
             }
 
         }
